@@ -56,6 +56,7 @@ class SQLController extends GetxController{
   List<TodoModel> list = [];
 
   void getAllData()async{
+    list = [];
      var allData = await database.query('todo');
      for (var i in allData ) {
       debugPrint(i.toString());
@@ -66,36 +67,61 @@ class SQLController extends GetxController{
       update();
   }
 
-  void insertData() async{
-    var insert = await database.insert("todo", {
-    "title":"go",
-    "description" : "go to school",
-    "time" :"10",
+  void insertData({
+    required String title,
+    required String description,
+    required String time,
+
+  }) async{
+    try {
+       var insert = await database.insert("todo", {
+    "title": title,
+    "description" : description,
+    "time" :time,
     "favorite" : 0,
     "completed": 0,
    });
+   Get.back();
    debugPrint("$insert data inserted");
    getAllData();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+   
   }
 
-  void updateData(){
-    var updateData= database.update('todo', {
-    "title":"play",
-    "description" : "go play foodball",
-    "time" :"12",
+  bool updateTaskData = false;
+
+  void updateData({ 
+    required String title,
+    required String description,
+    required String time,
+    required int id,
+    })
+     async {
+    try {
+      var updateData= database.update('todo', 
+    {
+    "title":title,
+    "description" : description,
+    "time" :time,
     "favorite" : 1,
     "completed": 1,
    },
-   where: "id = ${1}"
+   where: "id = $id"
    );
 
    debugPrint("updated item $updateData");
    getAllData();
+   Get.back();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
-  void deleteData(){
+  void deleteData({required int id}){
 
-    var deleteItem = database.delete('todo', where: "id = ${2}");
+    var deleteItem = database.delete('todo', where: "id = $id");
     debugPrint("deleted item $deleteItem");
     getAllData();
     
