@@ -67,7 +67,13 @@ class TodoItem extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             controller.updateTaskData = true;
-                            Get.to(() => EditScreen(id: controller.list[index].id,));
+                            Get.to(() => EditScreen(
+                             id: controller.list[index].id,
+                             title :controller.list[index].title,
+                             description: controller.list[index].description,
+                             time: controller.list[index].time,
+                            ),
+                            );
                           },
                           icon: const Icon(
                             Icons.edit,

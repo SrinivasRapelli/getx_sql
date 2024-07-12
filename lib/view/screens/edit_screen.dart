@@ -1,16 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:getx_sqflite/controller/controller.dart';
 
 import '../../shared/custom_text_form_field.dart';
 
-class EditScreen extends StatelessWidget {
-   EditScreen({super.key, this.id});
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final timeController = TextEditingController();
-  final controller = Get.put(SQLController());
+class EditScreen extends StatefulWidget {
+   EditScreen({super.key, this.id, this.title, this.description, this.time});
   final int? id;
+  final String? title;
+  final String? description;
+  final String? time;
+
+  @override
+  State<EditScreen> createState() => _EditScreenState();
+}
+
+class _EditScreenState extends State<EditScreen> {
+  final titleController = TextEditingController();
+
+  final descriptionController = TextEditingController();
+
+  final timeController = TextEditingController();
+
+//  final controller = Get.put(SQLController());
+   final SQLController controller = Get.find();
+
+   @override
+  void initState() {
+    if (controller.updateTaskData) {
+      titleController.text = widget.title.toString();
+      timeController.text = widget.time.toString();
+      descriptionController.text = widget.description.toString();
+    }
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -47,7 +73,7 @@ class EditScreen extends StatelessWidget {
                 title: titleController.text, 
                description: descriptionController.text, 
                time: timeController.text,
-               id: id!,
+               id: widget.id!,
               );
             }
            
