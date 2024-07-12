@@ -21,9 +21,36 @@ class HomeScreen extends StatelessWidget {
             }, 
             icon: const  Icon(
               Icons.remove
+              ),
+              ),
+        
+         IconButton(
+            onPressed: (){
+              controller.insertData();
+            }, 
+            icon: const  Icon(
+              Icons.add
               ),),
         ],
       ),
+      body: Column(
+        children: [
+          IconButton(
+            onPressed: (){
+               controller.updateData();
+            },
+            icon: 
+            const Icon(Icons.share)),
+             IconButton(
+            onPressed: (){
+               controller.deleteData();
+            },
+            icon: 
+            const Icon(Icons.delete)),
+
+
+        ],
+        ),
     );
   }
 }
